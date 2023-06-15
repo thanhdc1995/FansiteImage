@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageUploader from './ImageUploader';
+import ImageUploader from './ImageInfoExif';
 
 const AppInfo = () => {
   return (
