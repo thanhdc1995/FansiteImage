@@ -8,7 +8,7 @@ const ImageProcess = function (uploadedImage) {
     image.onload = () => {
       EXIF.getData(image, () => {
         const exifInfo = EXIF.getAllTags(image);
-        if (exifInfo) {
+        if (exifInfo && exifInfo.Orientation !== 1) {
           const canvas = document.createElement('canvas');
           const context = canvas.getContext('2d');
           canvas.width = image.width;
