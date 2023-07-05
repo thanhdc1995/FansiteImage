@@ -1,32 +1,29 @@
-import React, { useState } from 'react';
-import ImageProcess from './ImageProcess';
+import React, { useState, useEffect } from 'react';
 
-const App = () => {
-  const [uploadedImage, setUploadedImage] = useState(null);
+function App() {
+  const [response, setResponse] = useState('');
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    reader.onload = (e) => {
-      setUploadedImage(e.target.result);
-    };
-
-    reader.readAsDataURL(file);
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://laraveltest220795-d8fc6767e0c3.herokuapp.com/healthcheck');
+      const data = await response.json();
+      setResponse(JSON.stringify(data));
+    } catch (error) {
+      console.error(error);
+      setResponse('Error occurred while fetching data.');
+    }
   };
 
   return (
     <div>
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
-      {uploadedImage && (
-        <img
-        alt="Media Preview"
-        src={`${ImageProcess(uploadedImage)}`}
-        style={{ width: '300px', height: 'auto' }}
-      />
-      )}
+      <h1>API Response:</h1>
+      <pre>{response}</pre>
     </div>
   );
-};
+}
 
 export default App;
