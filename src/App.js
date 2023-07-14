@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const ImageComponent = () => {
-  const [imageURL, setImageURL] = useState('');
-
-  useEffect(() => {
-    // Gọi API để lấy URL của hình ảnh
-    fetch('https://d2zn0b5zde5714.cloudfront.net/logo.png')
-      .then(response => response.text())
-      .then(data => {
-        setImageURL(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
+const App = () => {
+  const imageUrl = 'https://d2zn0b5zde5714.cloudfront.net/logo.png';
+  const domain = window.location.origin;
 
   return (
     <div>
-      {imageURL && <img src={imageURL} alt="Logo" />}
+      <h1>Hiển thị ảnh từ URL</h1>
+      <img src={imageUrl} alt="Logo" />
+      <p>{domain}</p>
     </div>
   );
 };
 
-export default ImageComponent;
+export default App;
