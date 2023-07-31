@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const debounce = (func, delay) => {
-  let timer;
-  return function () {
-    clearTimeout(timer);
-    timer = setTimeout(() => func.apply(this, arguments), delay);
-  };
-};
-
 const App = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [changeOrientation, setchangeOrientation] = useState(false);
 
   const handleShowPopup = () => {
     setShowPopup(true);
@@ -19,24 +12,23 @@ const App = () => {
     setShowPopup(false);
   };
 
-  const handleOrientationChange = (e) => {
-    if (window.matchMedia("(orientation: portrait), (orientation: landscape)").matches) {
-      return window.location.reload();
-    }
-  };
-
-  // Sử dụng debounce với hàm handleOrientationChange
-  const debouncedHandleOrientationChange = debounce(handleOrientationChange, 300);
-
   useEffect(() => {
-    if ('onorientationchange' in window) {
-      window.addEventListener('orientationchange', debouncedHandleOrientationChange, false);
-    }
-
-    return () => {
-      window.removeEventListener('orientationchange', debouncedHandleOrientationChange, false);
+    const handleOrientationChange = (event) => {
+      if (event.type === "resize" && changeOrientation) {
+        setchangeOrientation(false);
+      } else if (event.type === "orientationchange") {
+        setchangeOrientation(true);
+      }
     };
-  }, [debouncedHandleOrientationChange]);
+  
+    window.addEventListener('orientationchange', handleOrientationChange, false);
+    window.addEventListener('resize', handleOrientationChange, false);
+  
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange, false);
+      window.removeEventListener('resize', handleOrientationChange, false);
+    };
+  }, [changeOrientation]);
 
   return (
     <div>
