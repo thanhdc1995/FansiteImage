@@ -19,10 +19,10 @@ const App = () => {
 
   useEffect(() => {
     if ("onorientationchange" in window) {
-      window.addEventListener("orientationchange", handleOrientationChange,false);
+      window.addEventListener("orientationchange", handleOrientationChange);
     }
 
-    window.addEventListener("orientationchange", handleOrientationChange,false);
+    window.addEventListener("resize", handleOrientationChange);
 
     return () => {
       if ("onorientationchange" in window) {
@@ -32,7 +32,7 @@ const App = () => {
         );
       }
 
-      window.removeEventListener("orientationchange", handleOrientationChange);
+      window.removeEventListener("resize", handleOrientationChange);
     };
   }, []);
 
