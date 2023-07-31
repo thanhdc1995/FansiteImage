@@ -5,11 +5,11 @@ const useDetectChangeOnoriention = () => {
   const updateOrientation = (e) => {
     switch (e.target.screen.orientation.angle) {
       case 0:
-        break;
+        return window.location.reload();
       case -90:
         return window.location.reload();
       case 90:
-        return window.location.reload();
+        break
       default:
         break;
     }
