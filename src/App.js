@@ -15,15 +15,15 @@ const App = () => {
   useEffect(() => {
     const handleOrientationChange = (event) => {
       if (event.type === "resize" && changeOrientation) {
-        setchangeOrientation(false);
+        return window.location.reload();
       } else if (event.type === "orientationchange") {
         setchangeOrientation(true);
       }
     };
-  
+
     window.addEventListener('orientationchange', handleOrientationChange, false);
     window.addEventListener('resize', handleOrientationChange, false);
-  
+
     return () => {
       window.removeEventListener('orientationchange', handleOrientationChange, false);
       window.removeEventListener('resize', handleOrientationChange, false);
