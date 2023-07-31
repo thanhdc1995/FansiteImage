@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 const useDetectChangeOnoriention = () => {
-  const updateOrientation = () => {
-    return window.location.reload();
+  const updateOrientation = (e) => {
+    switch (e.orientation) {
+      case 0:
+        break;
+      case -90:
+        return window.location.reload();
+      case 90:
+        return window.location.reload();
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
-    if ('onorientationchange' in window) {
-      window.addEventListener('orientationchange', updateOrientation, false);
+    if ("onorientationchange" in window) {
+      window.addEventListener("orientationchange", updateOrientation, false);
     }
 
     return () => {
-      window.removeEventListener('orientationchange', updateOrientation, false);
+      window.removeEventListener("orientationchange", updateOrientation, false);
     };
   }, []);
 };
