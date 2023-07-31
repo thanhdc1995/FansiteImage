@@ -1,59 +1,47 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import React, { useEffect, useState } from "react";
 
-const useDetectChangeOnoriention = () => {
-  const updateOrientation = (e) => {
-    switch (e.target.screen.orientation.angle) {
-      case 0:
-        return window.location.reload();
-      case -90:
-        return window.location.reload();
-      case 90:
-        return window.location.reload();
-      case 180:
-        return window.location.reload();
-      default:
-        break;
-    }
+const App = () => {
+  const [orientation, setOrientation] = useState(0);
+
+  const handleOrientationChange = (e) => {
+    setOrientation(e.target.screen.orientation.angle);
+    // switch (e.target.screen.orientation.angle) {
+    //   case 0:
+    //     return window.location.reload();
+    //   case -90:
+    //     break;
+    //   case 90:
+    //     return window.location.reload();
+    //   case 180:
+    //     break;
+    //   default:
+    //     break;
+    // }
   };
 
   useEffect(() => {
     if ("onorientationchange" in window) {
-      window.addEventListener("orientationchange", updateOrientation, false);
+      window.addEventListener("orientationchange", handleOrientationChange);
     }
 
+    window.addEventListener("resize", handleOrientationChange);
+
     return () => {
-      window.removeEventListener("orientationchange", updateOrientation, false);
+      if ("onorientationchange" in window) {
+        window.removeEventListener(
+          "orientationchange",
+          handleOrientationChange
+        );
+      }
+
+      window.removeEventListener("resize", handleOrientationChange);
     };
   }, []);
-};
-
-const App = () => {
-  const [showPopup, setShowPopup] = useState(false);
-
-  useDetectChangeOnoriention();
-
-  const handleShowPopup = () => {
-    setShowPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
 
   return (
     <div>
-      <h1>Orientation Change Popup</h1>
-      <button onClick={handleShowPopup}>Show Popup</button>
-      {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>Popup Content</h2>
-            <p>This is the popup that appears when orientation changes.</p>
-            <button onClick={handleClosePopup}>Close</button>
-          </div>
-        </div>
-      )}
+      <h1>Orientation Change Detection</h1>
+      <p>Current Orientation: {orientation}</p>
     </div>
   );
 };
