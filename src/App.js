@@ -7,8 +7,10 @@ const useDetectChangeOnoriention = () => {
       case 0:
         return window.location.reload();
       case -90:
-        return window.location.reload();
+        break;
       case 90:
+        return window.location.reload();
+      case 180:
         return window.location.reload();
       default:
         break;
@@ -43,7 +45,6 @@ const App = () => {
     <div>
       <h1>Orientation Change Popup</h1>
       <button onClick={handleShowPopup}>Show Popup</button>
-
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
