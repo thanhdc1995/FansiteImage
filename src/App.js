@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 
+const debounce = (func, delay) => {
+  let timer;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, arguments), delay);
+  };
+};
+
 const App = () => {
   const [showPopup, setShowPopup] = useState(false);
-  // const [orientation, setOrientation] = useState(0);
+
   const handleShowPopup = () => {
     setShowPopup(true);
   };
@@ -17,26 +25,22 @@ const App = () => {
     }
   };
 
+  // Sử dụng debounce với hàm handleOrientationChange
+  const debouncedHandleOrientationChange = debounce(handleOrientationChange, 300);
+
   useEffect(() => {
-
     if ('onorientationchange' in window) {
-
-      window.addEventListener('orientationchange', handleOrientationChange, false);
-
+      window.addEventListener('orientationchange', debouncedHandleOrientationChange, false);
     }
 
     return () => {
-
-      window.removeEventListener('orientationchange', handleOrientationChange, false);
-
+      window.removeEventListener('orientationchange', debouncedHandleOrientationChange, false);
     };
-
-  }, []);
+  }, [debouncedHandleOrientationChange]);
 
   return (
     <div>
       <h1>Orientation Change Detection</h1>
-      {/* <p>Current Orientation: {orientation}</p> */}
       <button onClick={handleShowPopup}>Show Popup</button>
       {showPopup && (
         <div className="popup">
