@@ -19,17 +19,13 @@ const App = () => {
 
   useEffect(() => {
 
-    if ('onorientationchange' in window) {
+    window.addEventListener('resize', handleOrientationChange, false);
 
-      window.addEventListener('orientationchange', handleOrientationChange, false);
+    // return () => {
 
-    }
+    //   window.removeEventListener('resize', handleOrientationChange, false);
 
-    return () => {
-
-      window.removeEventListener('orientationchange', handleOrientationChange, false);
-
-    };
+    // };
 
   }, []);
 
