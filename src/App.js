@@ -12,26 +12,9 @@ const App = () => {
   };
 
   const handleOrientationChange = (e) => {
-    // setOrientation(e.target.screen.orientation.angle);
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      setOrientation(123);
+    if (window.matchMedia("(orientation: portrait), (orientation: landscape)").matches) {
+      return window.location.reload();
     }
-
-    if (window.matchMedia("(orientation: landscape)").matches) {
-      setOrientation(456);
-    }
-    // switch (e.target.screen.orientation.angle) {
-    //   case 0:
-    //     return window.location.reload();
-    //   case -90:
-    //     break;
-    //   case 90:
-    //     return window.location.reload();
-    //   case 180:
-    //     break;
-    //   default:
-    //     break;
-    // }
   };
 
   useEffect(() => {
