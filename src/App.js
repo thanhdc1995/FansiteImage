@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import './App.css';
+
+const useDetectChangeOnoriention = () => {
+  const updateOrientation = () => {
+    return window.location.reload();
+  };
+
+  useEffect(() => {
+    if ('onorientationchange' in window) {
+      window.addEventListener('orientationchange', updateOrientation, false);
+    }
+
+    return () => {
+      window.removeEventListener('orientationchange', updateOrientation, false);
+    };
+  }, []);
+};
 
 const App = () => {
-  const imageUrl = 'https://3guqoe5p0l.execute-api.us-west-2.amazonaws.com/checker';
-  const domain = window.location.origin;
+  const [showPopup, setShowPopup] = useState(false);
+
+  useDetectChangeOnoriention();
+
+  const handleShowPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
     <div>
-      <h1>Hiển thị ảnh từ URL</h1>
-      <img src={imageUrl} alt="Logo" />
-      <p>{domain}</p>
+      <h1>Orientation Change Popup</h1>
+      <button onClick={handleShowPopup}>Show Popup</button>
+
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Popup Content</h2>
+            <p>This is the popup that appears when orientation changes.</p>
+            <button onClick={handleClosePopup}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
