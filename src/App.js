@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const App = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [orientation, setOrientation] = useState(0);
+  // const [orientation, setOrientation] = useState(0);
   const handleShowPopup = () => {
     setShowPopup(true);
   };
@@ -18,28 +18,25 @@ const App = () => {
   };
 
   useEffect(() => {
-    if ("onorientationchange" in window) {
-      window.addEventListener("orientationchange", handleOrientationChange);
+
+    if ('onorientationchange' in window) {
+
+      window.addEventListener('orientationchange', handleOrientationChange, false);
+
     }
 
-    window.addEventListener("resize", handleOrientationChange);
-
     return () => {
-      if ("onorientationchange" in window) {
-        window.removeEventListener(
-          "orientationchange",
-          handleOrientationChange
-        );
-      }
 
-      window.removeEventListener("resize", handleOrientationChange);
+      window.removeEventListener('orientationchange', handleOrientationChange, false);
+
     };
+
   }, []);
 
   return (
     <div>
       <h1>Orientation Change Detection</h1>
-      <p>Current Orientation: {orientation}</p>
+      {/* <p>Current Orientation: {orientation}</p> */}
       <button onClick={handleShowPopup}>Show Popup</button>
       {showPopup && (
         <div className="popup">
