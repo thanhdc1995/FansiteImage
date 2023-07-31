@@ -12,7 +12,14 @@ const App = () => {
   };
 
   const handleOrientationChange = (e) => {
-    setOrientation(e.target.screen.orientation.angle);
+    // setOrientation(e.target.screen.orientation.angle);
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      setOrientation(123);
+    }
+
+    if (window.matchMedia("(orientation: landscape)").matches) {
+      setOrientation(456);
+    }
     // switch (e.target.screen.orientation.angle) {
     //   case 0:
     //     return window.location.reload();
@@ -28,7 +35,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    
     if ("onorientationchange" in window) {
       window.addEventListener("orientationchange", handleOrientationChange);
     }
