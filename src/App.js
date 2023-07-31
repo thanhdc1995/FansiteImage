@@ -7,7 +7,7 @@ const useDetectChangeOnoriention = () => {
       case 0:
         return window.location.reload();
       case -90:
-        break;
+        return window.location.reload();
       case 90:
         return window.location.reload();
       default:
