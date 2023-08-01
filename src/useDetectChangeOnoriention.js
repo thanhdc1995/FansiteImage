@@ -1,38 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const useDetectChangeOnoriention = () => {
-  const [changeOrientation, setchangeOrientation] = useState(false);
-
   useEffect(() => {
-    const handleOrientationChange = (event) => {
-      if (event.type === "resize" && changeOrientation) {
-        return window.location.reload();
-      } else if (event.type === "orientationchange") {
-        if (
-          window.matchMedia("(orientation: portrait), (orientation: landscape)")
-            .matches
-        ) {
-          setchangeOrientation(true);
-        }
-      }
+    let isChanging = 0;
+
+    const handleOrientationChange = () => {
+        isChanging = isChanging + 1;
+      
+        setTimeout(() => {
+          if (isChanging === 1){
+            window.location.reload();
+            isChanging = 0;
+          } else{
+            isChanging = 0;
+          }
+        }, 500);
     };
 
-    window.addEventListener(
-      "orientationchange",
-      handleOrientationChange,
-      false
-    );
-    window.addEventListener("resize", handleOrientationChange, false);
+    window.addEventListener("orientationchange", handleOrientationChange, false);
 
     return () => {
-      window.removeEventListener(
-        "orientationchange",
-        handleOrientationChange,
-        false
-      );
-      window.removeEventListener("resize", handleOrientationChange, false);
+      window.removeEventListener("orientationchange", handleOrientationChange, false);
     };
-  }, [changeOrientation]);
+  }, []);
 };
 
 export default useDetectChangeOnoriention;
