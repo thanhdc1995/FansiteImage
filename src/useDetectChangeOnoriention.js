@@ -2,25 +2,35 @@ import { useEffect } from "react";
 
 const useDetectChangeOnoriention = () => {
   useEffect(() => {
-    let isChanging = 0;
+    let countChanging = 0;
+    let timer;
 
     const handleOrientationChange = () => {
-        isChanging = isChanging + 1;
-      
-        setTimeout(() => {
-          if (isChanging === 1){
-            window.location.reload();
-            isChanging = 0;
-          } else{
-            isChanging = 0;
-          }
-        }, 500);
+      countChanging = countChanging + 1;
+
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (countChanging === 1) {
+          countChanging = 0;
+          window.location.reload();
+        } else {
+          countChanging = 0;
+        }
+      }, 1000);
     };
 
-    window.addEventListener("orientationchange", handleOrientationChange, false);
+    window.addEventListener(
+      "orientationchange",
+      handleOrientationChange,
+      false
+    );
 
     return () => {
-      window.removeEventListener("orientationchange", handleOrientationChange, false);
+      window.removeEventListener(
+        "orientationchange",
+        handleOrientationChange,
+        false
+      );
     };
   }, []);
 };
